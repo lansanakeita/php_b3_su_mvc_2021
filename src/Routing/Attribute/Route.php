@@ -14,10 +14,12 @@ class Route
   public function __construct(
     string $path,
     string $httpMethod = "GET",
+    string $httpMethod2 = "POST",
     string $name = "default"
   ) {
     $this->path = $path;
     $this->httpMethod = $httpMethod;
+    $this->httpMethod2 = $httpMethod2;
     $this->name = $name;
   }
 
@@ -56,4 +58,18 @@ class Route
 
     return $this;
   }
+
+
+  public function getHttpMethod2(): string
+  {
+    return $this->httpMethod2;
+  }
+
+  public function setHttpMethod2(string $httpMethod2): self
+  {
+    $this->httpMethod = $httpMethod2;
+
+    return $this;
+  }
+
 }

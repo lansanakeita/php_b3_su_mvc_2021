@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 
 class IndexController extends AbstractController
 {
-  #[Route(path: "/")]
+  #[Route(path: "/index")]
   public function index(EntityManager $em)
   {
     $user = new User();
@@ -23,13 +23,19 @@ class IndexController extends AbstractController
 
     // On demande au gestionnaire d'entités de persister l'objet
     // Attention, à ce moment-là l'objet n'est pas encore enregistré en BDD
-    $em->persist($user);
-    $em->flush();
+    //$em->persist($user);
+    //$em->flush();
   }
 
-  #[Route(path: "/contact", name: "contact", httpMethod: "POST")]
+  #[Route(path: "/contact", name: "contact")]
   public function contact()
   {
     echo $this->twig->render('index/contact.html.twig');
+    if(isset($_POST)){
+       
+      var_dump($_POST);
+      echo"je suis la après";
+  
+      }
   }
 }

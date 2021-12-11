@@ -11,6 +11,7 @@ use ReflectionMethod;
 class Router
 {
   private $routes = [];
+  private $routes2 = [];
   private ContainerInterface $container;
   private const CONTROLLERS_NAMESPACE = "App\\Controller\\";
   private const CONTROLLERS_DIR = __DIR__ . "/../Controller";
@@ -26,6 +27,7 @@ class Router
    * @param string $name
    * @param string $url
    * @param string $httpMethod
+   * @param string $httpMethod2
    * @param string $controller Controller class
    * @param string $method
    * @return self
@@ -34,6 +36,7 @@ class Router
     string $name,
     string $url,
     string $httpMethod,
+    string $httpMethod2,
     string $controller,
     string $method
   ): self {
@@ -45,6 +48,15 @@ class Router
       'method' => $method
     ];
 
+    $this->routes2[] = [
+      'name' => $name,
+      'url' => $url,
+      'http_method2' => $httpMethod2,
+      'controller' => $controller,
+      'method' => $method
+    ];
+
+
     return $this;
   }
 
@@ -53,12 +65,19 @@ class Router
    *
    * @param string $uri
    * @param string $httpMethod
+   * @param string $httpMethod2
    * @return array|null
    */
-  public function getRoute(string $uri, string $httpMethod): ?array
+  public function getRoute(string $uri, string $httpMethod, string $httpMethod2): ?array
   {
     foreach ($this->routes as $route) {
       if ($route['url'] === $uri && $route['http_method'] === $httpMethod) {
+        return $route;
+      }
+    }
+
+    foreach ($this->routes2 as $route) {
+      if ($route['url'] === $uri && $route['http_method2'] === $httpMethod2) {
         return $route;
       }
     }
@@ -71,12 +90,13 @@ class Router
    *
    * @param string $uri
    * @param string $httpMethod
+   * @param string $httpMethod2
    * @return void
    * @throws RouteNotFoundException
    */
-  public function execute(string $uri, string $httpMethod)
+  public function execute(string $uri,  string $httpMethod, string $httpMethod2)
   {
-    $route = $this->getRoute($uri, $httpMethod);
+    $route = $this->getRoute($uri, $httpMethod, $httpMethod2);
 
     if ($route === null) {
       throw new RouteNotFoundException();
@@ -152,6 +172,7 @@ class Router
           $route->getName(),
           $route->getPath(),
           $route->getHttpMethod(),
+          $route->getHttpMethod2(),
           $fqcn,
           $method->getName()
         );

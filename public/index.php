@@ -47,9 +47,10 @@ if (php_sapi_name() === 'cli') {
 
 $requestUri = $_SERVER['REQUEST_URI'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];
+$requestMethod2 = $_SERVER['REQUEST_METHOD'];
 
 try {
-  $router->execute($requestUri, $requestMethod);
+  $router->execute($requestUri, $requestMethod, $requestMethod2);
 } catch (RouteNotFoundException $e) {
   http_response_code(404);
   echo $twig->render('404.html.twig', ['title' => $e->getMessage()]);

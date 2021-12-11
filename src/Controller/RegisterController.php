@@ -14,67 +14,39 @@ class RegisterController extends AbstractController
   {
   
     echo $this->twig->render('security/register.html.twig');
-   
-   /* if(!empty($_POST)){
-        $user = new User();
-        if (isset($_POST)) {
-            $_POST['username']    =  $user->getUsername;  
-            $_POST['name']        = $user->getName;    
-            $_POST['firstname']   =$user->getFirstName;  
-            $_POST['email']       =  $user->getEmail ;  
-            $_POST['date']        = $user->getBirthDate ; 
-            $_POST['password']    =  $user->getPassword;         
-        }
-            
-        /*
-        $user->getUsername  = ($_POST['username']);
-        $user->getName      = ($_POST['name']);
-        $user->getFirstName = ($_POST['firstname']);
-        $user->getEmail     = ($_POST['email']);
-        $user->getBirthDate = ($_POST['date']);
-        $user->getPassword  = ($_POST['password']);*/
-        //var_dump($user); 
-       /* $em->persist($user);
-        $em->flush(); 
-    }*/
-
-
 
     if(!empty($_POST)){
-        
-        extract($_POST); 
-
-        if(isset($username) && isset($name) && isset($firtsname) && isset($email) && isset($birthDate) && isset($password)  && isset($passwordConfirm)){
-         
-        if(!empty($username) && !empty($name) && !empty($firtsname) && !empty($email) &&!empty($birthDate) && !empty($password)  && !empty($passwordConfirm)){
-            echo'avant......................................................';
-
-            if($password == $passwordConfirm){
-                $options =['cost'=>12]; 
-                
-            }
-           $hashpass = password_hash($password, PASSWORD_BCRYPT, $options); 
-           include '.env.local';
-            
-           $data->$base->prepare("INSERT INTO user(username, name, firstname, email, birthDate, password) VALUES (:username, :name, firstname, :email, :birthDate, :password)");
-           $data->execute([
-                'username' =>$username, 
-                'name' =>$name, 
-                'firtsname' => $firtsname,
-                'email' => $email,
-                'birthDate' =>$birthDate, 
-                'password' =>$password,
-           ]); 
-
+        $username = $_POST['username'];
+        $name = $_POST['name'];
+        $firtsname = $_POST['firstname'];
+        $email = $_POST['email'];
+        $birthDate = new dateTime($_POST['birthDate']);
+        $password = $_POST['password'];
+        if(!empty($username) && !empty($name) && !empty($firtsname) && !empty($email) && !empty($birthDate) && !empty($password)){
            
-           echo'Bravo pour linscription';
-        }
-    }
-        else{
-            echo'ce compte exite';
-        }
-    }
-  }
+            // cripter le mot de passe
+           $hashpass = password_hash($password, PASSWORD_BCRYPT); 
+       
+           $user = new User();
 
+           $user->setName($name)
+             ->setFirstName($firtsname)
+             ->setUsername($username)
+             ->setPassword($hashpass)
+             ->setEmail($email)
+             ->setBirthDate($birthDate);
+       
+           $em->persist($user);
+           $em->flush();
+
+           header('Location:/login');
+        }
+        else{
+            echo'ce compte existe';
+        }
+    }
+  
+
+}
 }
  

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Routing\Attribute\Route;
-use DateTime;
 use Doctrine\ORM\EntityManager;
 
 class LoginController extends AbstractController
@@ -13,17 +12,22 @@ class LoginController extends AbstractController
   #[Route(path: "/login")]
   public function register(EntityManager $em)
   {
-      $user = new User; 
     echo $this->twig->render('security/login.html.twig');
 
-    session_start();
-    if(!empty($_POST['username']) && !empty($_POST['password']))
-    {
-        $_SESSION['username'] = $user->getUsername();
-       
-        echo'Merci pour la connexion'; 
-        var_dump($_POST);
+    $user = new User; 
+    var_dump($_POST);
+    if(isset($_POST)){
+      $repository = $this->em->getRepository(User::class);
+      $user = $repository->find($_POST['username']);
+      var_dump($user);
     }
+    // if(!empty($_POST['username']) && !empty($_POST['password']))
+    // {
+    //     $_SESSION['username'] = $user->getUsername();
+       
+    //     echo'Merci pour la connexion'; 
+    //     var_dump($_POST);
+    // }
 
 
   }

@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping\Entity;
 
 class LoginController extends AbstractController
 {
- 
   #[Route(path: "/login")]
   public function register(EntityManager $em)
   {

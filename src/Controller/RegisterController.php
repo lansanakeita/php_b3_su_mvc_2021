@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 class RegisterController extends AbstractController
 {
   //#[Route(path: "/")]
+ 
   #[Route(path: "/")]
   public function register(EntityManager $em)
   {
@@ -21,6 +22,7 @@ class RegisterController extends AbstractController
         $firtsname = $_POST['firstname'];
         $email = $_POST['email'];
         $birthDate = new dateTime($_POST['birthDate']);
+        $roles = $_POST['roles'];
         $password = $_POST['password'];
         if(!empty($username) && !empty($name) && !empty($firtsname) && !empty($email) && !empty($birthDate) && !empty($password)){
            
@@ -34,11 +36,11 @@ class RegisterController extends AbstractController
              ->setUsername($username)
              ->setPassword($hashpass)
              ->setEmail($email)
+             ->setRoles($roles)
              ->setBirthDate($birthDate);
        
            $em->persist($user);
            $em->flush();
-
            header('Location:/login');
         }
         else{

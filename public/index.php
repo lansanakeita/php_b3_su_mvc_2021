@@ -28,9 +28,14 @@ $dotenv->loadEnv(__DIR__ . '/../.env');
 $connection = new Connection();
 $entityManager = $connection->init();
 
+
+// démarrage de la session
+session_start(); 
+
 // Twig - Vue
 $twigEnvironment = new TwigEnvironment();
 $twig = $twigEnvironment->init();
+$twig->addGlobal('session', $_SESSION);
 
 // Service Container
 $container = new Container();

@@ -2,40 +2,46 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Routing\Attribute\Route;
-use DateTime;
 use Doctrine\ORM\EntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class IndexController extends AbstractController
 {
   #[Route(path: "/index")]
   public function index(EntityManager $em)
   {
-    $user = new User();
-
-    $user->setName("Bob")
-      ->setFirstName("John")
-      ->setUsername("Bobby")
-      ->setPassword("randompass")
-      ->setEmail("bob@bob.com")
-      ->setBirthDate(new DateTime('1981-02-16'));
-
-    // On demande au gestionnaire d'entités de persister l'objet
-    // Attention, à ce moment-là l'objet n'est pas encore enregistré en BDD
-    //$em->persist($user);
-    //$em->flush();
+   
   }
-
   #[Route(path: "/contact", name: "contact")]
   public function contact()
   {
-    echo $this->twig->render('index/contact.html.twig');
-    if(isset($_POST)){
-       
-      var_dump($_POST);
-      echo"je suis la après";
-  
-      }
+    //var_export($_SESSION);
+    if (!empty($_SESSION)) {
+      echo $this->twig->render('index/contact.html.twig');
+
+      $this->logout();
+    }else{      
+      $this->redirectLoginPageUnsuccesfullAction();
+    }
   }
+
+  
+  public function logout(){
+    if (array_key_exists("logout_btn", $_POST)) {
+      //unset($_SESSION);
+      $_SESSION = [];
+      header('Location:/login');
+    }
+  }
+
+  public function redirectLoginPageUnsuccesfullAction(){
+    echo "<h1 style='color:darkred; text-align:center;'> Pour accéder à cette page, veuillez vous connecter avant </h1>";
+
+    header('Location:/login');
+    //echo $this->twig->render('security/login.html.twig');
+  }
+
+
 }

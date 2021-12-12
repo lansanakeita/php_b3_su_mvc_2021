@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * @ORM\Entity
@@ -47,6 +48,12 @@ class User
    * @ORM\Column(type="datetime", nullable=true)
    */
   private DateTime $birthDate;
+
+  /**
+     *@ORM\Column(type="string", nullable=false)
+     */
+    private string $roles;
+
 
   public function getId(): int
   {
@@ -124,4 +131,21 @@ class User
 
     return $this;
   }
+
+  public function getRoles(): string
+  {
+      //$roles = $this->roles;
+      // guarantee every user at least has ROLE_USER
+
+      return $this->roles;
+  }
+
+  public function setRoles(string $roles): self
+  {
+      $this->roles = $roles;
+
+      return $this;
+  }
+
+  
 }

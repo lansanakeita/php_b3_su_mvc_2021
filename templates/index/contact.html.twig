@@ -6,26 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-
-
   <h1>Bienvenue sur la page {{ session.user }}
   
-        <form method="post">
-            <div class="text-center" >
-                <button class="btn btn-primary" type="submit" name="logout_btn"> Deconnexion </button>
-            </div>
-        </form>
-   </h1>
+    <form method="post">
+      <div class="text-center" >
+          <button class="btn btn-primary" type="submit" name="logout_btn"> Deconnexion </button>
+      </div>
+    </form>
+  </h1>
 
-        {% if session.role == 'user' %}
-            <h3> {{ session.user }} vous etes en mode {{session.role}} </h3>
-        {% elseif session.role == 'admin' %}
-            <h3> {{ session.user }} vous etes en mode {{session.role}} </h3>
-        {% endif %}
+  {% if session.role == 'user' %}
+      <h3> {{ session.user }} vous etes en mode {{session.role}} </h3>
+  {% elseif session.role == 'admin' %}
+      <h3> {{ session.user }} vous etes en mode {{session.role}} </h3>
+  {% endif %}
   
 </body>
 </html>

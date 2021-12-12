@@ -20,15 +20,13 @@ class LoginController extends AbstractController
       $password_in_form = $_POST["password"];
       $password_in_bd = $this->getUserPassword($em, $username)[0]['password'];
       $role = $this->getStatus($em, $_POST["username"]);
-
-        
-        if ($this->usernameExist($em, $username) && password_verify($password_in_form, $password_in_bd) ) {
-          $_SESSION['user'] = $username;
-          $_SESSION['role'] = $role;
-          header('Location:/contact');
-          
-        }
-        echo "<script> alert('connection failed') </script>";
+      
+      if ($this->usernameExist($em, $username) && password_verify($password_in_form, $password_in_bd) ) {
+        $_SESSION['user'] = $username;
+        $_SESSION['role'] = $role;
+        header('Location:/contact');
+      }
+      echo "<script> alert('connection failed') </script>";
     }
   }
 
